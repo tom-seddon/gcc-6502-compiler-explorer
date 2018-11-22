@@ -1,0 +1,3 @@
+[submodule "submodules/gcc-6502-bits"]
+	path = submodules/gcc-6502-bits
+	url = https://github.com/itszor/gcc-6502-bits
