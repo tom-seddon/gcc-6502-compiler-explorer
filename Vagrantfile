@@ -1,25 +1,5 @@
 require "shellwords"
 
-# `ssh-add -L`
-# if not $?.success?
-#   `ssh-add -K`
-#   if not $?.success?
-#     raise "no SSH agent keys available, and ssh-add K failed"
-#   end
-# end
-
-git_email=`git config user.email`
-if not $?.success?
-  raise "git config user.email failed"
-end
-git_email=git_email.strip
-
-git_name=`git config user.name`
-if not $?.success?
-  raise "git config user.name failed"
-end
-git_name=git_name.strip
-
 Vagrant.configure("2") do |x|
   x.vm.box="ubuntu/xenial64"
   x.ssh.forward_x11=true
@@ -49,8 +29,5 @@ Vagrant.configure("2") do |x|
   x.vm.provision "shell",privileged:true,inline:"/vagrant/provision/update_ubuntu.sh"
   x.vm.provision :reload
   x.vm.provision "shell",privileged:true,inline:"/vagrant/provision/provision.sh"
-  x.vm.provision "shell",privileged:false,inline:"git config --global user.email "+Shellwords.escape(git_email)
-  x.vm.provision "shell",privileged:false,inline:"git config --global user.name "+Shellwords.escape(git_name)
-  x.vm.provision "shell",privileged:false,inline:"/vagrant/provision/tom.sh"
   x.vm.provision :reload
 end
